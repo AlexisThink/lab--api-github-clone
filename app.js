@@ -42,16 +42,65 @@ form.addEventListener('submit', function(event){
         web.textContent = data[6];
     }
 
+    function createRepos(name, description, language, size, date){
+        var repos = document.querySelector('.repos');
+
+        //CREATE ELEMENTS
+        var article = document.createElement('article');
+        var h3 = document.createElement('h3');
+        var p = document.createElement('p');
+        var div = document.createElement('div');
+        var lang = document.createElement('p');
+        var commits = document.createElement('p');
+        var createDate = document.createElement('p');
+
+        //SETTING CLASSES
+        article.className = 'repos__single';
+        h3.className = 'repos__single__title';
+        p.className = 'repos__single__description';
+        div.className = 'repos__single__details';
+        lang.className = 'repos__single__details__language';
+        commits.className = 'repos__single__details__commits';
+        createDate.className = 'repos__single__details__date';
+
+        //SETTING VALUES
+        h3.textContent = name;
+        p.textContent = description;
+        lang.textContent = language;
+        commits.textContent = size;
+        createDate.textContent = date;
+
+        //APPEND CHILDS
+        repos.appendChild(article);
+        article.appendChild(h3);
+        article.appendChild(p);
+        article.appendChild(div);
+        div.appendChild(lang);
+        div.appendChild(commits);
+        div.appendChild(createDate);
+    }
+
+    //PROFILE REQUEST - SIDEBAR
     request
         .get(apiProfile+userInput+token)
         .then(getDataSidebar)
         .then(createSetElemetsSidebar);
-        
+    
+    //REPOS REQUEST - MAIN CONTAINER    
     request
         .get(apiProfile+userInput+repos+token)
         .then(function(response){
-            console.log(response)
+            var repos = response.body;
+            document.querySelector('.repos').innerHTML = "";
+            repos.forEach(function(repo){
+
+                var name = repo.name;
+                var description = repo.description;
+                var language = repo.language;
+                var size = repo.size;
+                var date = repo.created_at;
+
+                createRepos(name, description, language, size, date);
+            })
         });    
 })
-
-// https://api.github.com/users/AlexisThink?access_token=f08c6cf404af79886e531aa0cdf0ae11dd9bcd36
