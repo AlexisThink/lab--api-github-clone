@@ -128,6 +128,11 @@ body{
         }
         &__search{
             width: 100%;
+            height: 50px;
+
+            input{
+                height: 40px;
+            }
         }
         &__options{
             display: flex;
@@ -171,6 +176,9 @@ body{
         &__button{
             margin-top: 10px;
             width: 70%;
+            height: 30px;
+
+            color: white;
         }
     }
 }
